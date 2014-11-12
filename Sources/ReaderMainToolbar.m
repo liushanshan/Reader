@@ -50,7 +50,7 @@
 
 #define ICON_BUTTON_WIDTH 40.0f
 
-#define TITLE_FONT_SIZE 19.0f
+#define TITLE_FONT_SIZE 12.0f
 #define TITLE_HEIGHT 28.0f
 
 #pragma mark - Properties
@@ -218,6 +218,32 @@
 
 			[self addSubview:exportButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
 		}
+        
+        if (document.canGoHomePage == YES) // Document export enabled
+        {
+//            rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
+            
+            UIFont *goHomePageButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
+            NSString *goHomePageButtonText = NSLocalizedString(@"回到首页", @"button");
+            CGSize goHomePageButtonSize = [goHomePageButtonText sizeWithFont:goHomePageButtonFont];
+            CGFloat goHomePageButtonWidth = (goHomePageButtonSize.width + TEXT_BUTTON_PADDING);
+            
+            rightButtonX = self.bounds.size.width - 10 - goHomePageButtonWidth;
+            
+            UIButton *goHomePageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            goHomePageButton.frame = CGRectMake(rightButtonX, BUTTON_Y, goHomePageButtonWidth, BUTTON_HEIGHT);
+            [goHomePageButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
+            [goHomePageButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
+            [goHomePageButton setTitle:goHomePageButtonText forState:UIControlStateNormal];
+            goHomePageButton.titleLabel.font = goHomePageButtonFont;
+            [goHomePageButton addTarget:self action:@selector(goHomePageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [goHomePageButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+            [goHomePageButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+            goHomePageButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            goHomePageButton.exclusiveTouch = YES;
+            
+            [self addSubview:goHomePageButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
+        }
 
 		if (largeDevice == YES) // Show document filename in toolbar
 		{
@@ -241,6 +267,17 @@
 
 			[self addSubview:titleLabel]; 
 		}
+        
+        CGRect titleRect = CGRectMake(0, BUTTON_Y, self.bounds.size.width, TITLE_HEIGHT);
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleRect];
+        titleLabel.font = [UIFont systemFontOfSize:TITLE_FONT_SIZE];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+        titleLabel.textColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.minimumScaleFactor = 0.75f;
+        titleLabel.text = [@"WEB软件测试二组QC使用" stringByDeletingPathExtension];
+        [self addSubview:titleLabel];
 	}
 
 	return self;
@@ -351,6 +388,11 @@
 - (void)markButtonTapped:(UIButton *)button
 {
 	[delegate tappedInToolbar:self markButton:button];
+}
+
+- (void)goHomePageButtonTapped:(UIButton *)button
+{
+    [delegate tappedInToolbar:self goHomePageButton:button];
 }
 
 @end

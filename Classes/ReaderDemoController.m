@@ -34,7 +34,7 @@
 
 #pragma mark - Constants
 
-#define DEMO_VIEW_CONTROLLER_PUSH FALSE
+#define DEMO_VIEW_CONTROLLER_PUSH TRUE
 
 #pragma mark - UIViewController methods
 
@@ -180,8 +180,7 @@
 
 	if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
 	{
-		ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document];
-
+		ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document andReadPageIdx:3];
 		readerViewController.delegate = self; // Set the ReaderViewController delegate to self
 
 #if (DEMO_VIEW_CONTROLLER_PUSH == TRUE)

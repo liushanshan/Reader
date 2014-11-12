@@ -41,6 +41,8 @@
 @property (nonatomic, readonly) BOOL canEmail;
 @property (nonatomic, readonly) BOOL canExport;
 @property (nonatomic, readonly) BOOL canPrint;
+@property (nonatomic, readonly) BOOL canGoHomePage;
+
 
 + (ReaderDocument *)withDocumentFilePath:(NSString *)filePath password:(NSString *)phrase;
 

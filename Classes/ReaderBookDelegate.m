@@ -60,7 +60,7 @@
 
 	if (document != nil) // Must have a valid ReaderDocument object in order to proceed
 	{
-		readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document];
+		readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document andReadPageIdx:3];
 
 		readerViewController.delegate = self; // Set the ReaderViewController delegate to self
 

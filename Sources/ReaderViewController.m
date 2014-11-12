@@ -286,7 +286,7 @@
 
 #pragma mark - UIViewController methods
 
-- (instancetype)initWithReaderDocument:(ReaderDocument *)object
+- (instancetype)initWithReaderDocument:(ReaderDocument *)object andReadPageIdx:(int)readPageIdx
 {
 	if ((self = [super initWithNibName:nil bundle:nil])) // Initialize superclass
 	{
@@ -302,8 +302,10 @@
 
 			scrollViewOutset = ((userInterfaceIdiom == UIUserInterfaceIdiomPad) ? SCROLLVIEW_OUTSET_LARGE : SCROLLVIEW_OUTSET_SMALL);
 
-			[object updateDocumentProperties]; document = object; // Retain the supplied ReaderDocument object for our use
-
+			[object updateDocumentProperties];
+            document = object; // Retain the supplied ReaderDocument object for our use
+            document.pageNumber = [NSNumber numberWithInt:readPageIdx];
+            
 			[ReaderThumbCache touchThumbCacheWithGUID:object.guid]; // Touch the document thumb cache directory
 		}
 		else // Invalid ReaderDocument object
@@ -324,6 +326,7 @@
 {
 	[super viewDidLoad];
 
+    
 	assert(document != nil); // Must have a valid ReaderDocument
 
 	self.view.backgroundColor = [UIColor grayColor]; // Neutral gray
@@ -654,7 +657,8 @@
 			{
 				case 1: // One finger double tap: zoom++
 				{
-					[targetView zoomIncrement:recognizer]; break;
+//					[targetView zoomIncrement:recognizer]; break;
+                    [targetView zoomDecrement:recognizer]; break;
 				}
 
 				case 2: // Two finger double tap: zoom--
@@ -843,6 +847,12 @@
 	}
 
 #endif // end of READER_BOOKMARKS Option
+}
+
+//回到首页
+ -(void)tappedInToolbar:(ReaderMainToolbar *)toolbar goHomePageButton:(UIButton *)button
+{
+    [self showDocumentPage:1];//从1开始
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate methods

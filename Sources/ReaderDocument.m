@@ -259,17 +259,22 @@
 
 - (BOOL)canEmail
 {
-	return YES;
+	return NO;
 }
 
 - (BOOL)canExport
 {
-	return YES;
+	return NO;
 }
 
 - (BOOL)canPrint
 {
-	return YES;
+	return NO;
+}
+
+- (BOOL)canGoHomePage
+{
+    return YES;
 }
 
 - (BOOL)archiveDocumentProperties
